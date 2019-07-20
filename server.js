@@ -15,9 +15,25 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
-  console.log("hello asdf");
   res.sendFile(__dirname + '/views/index.html');
 });
+
+// THINGS I HAVE ADDED
+app.get("/api/timestamp/:date", function (req, res) {
+  console.log("I've been called");
+  var date;
+  if (req.params.date == ":") {
+    date = new Date();
+  } else {
+    date = new Date(req.params.date);
+  }
+  if (date != "Invalid Date") {
+    res.json({"unix": date.getTime(), "utc": date.toUTCString()});
+  } else {
+    res.json({"error": "Invalid Date"})
+  }
+});
+// THINGS BELOW I HAVE NOT
 
 
 // your first API endpoint... 
